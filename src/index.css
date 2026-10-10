@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+.font-display { font-family: var(--font-display); }
+
+.text-gradient {
+  background: linear-gradient(90deg, #22d3ee, #818cf8, #e879f9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 28s linear infinite; }
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+.animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+
+::selection { background: #22d3ee; color: #0a0a0f; }
+
+/* scroll progress */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%;
+  transform-origin: 0 50%; transform: scaleX(0); z-index: 60;
+  background: linear-gradient(90deg, #22d3ee, #818cf8, #e879f9);
+}
+
+/* custom cursor — desktop only */
+@media (pointer: fine) {
+  .cursor-dot, .cursor-ring { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 100; border-radius: 9999px; }
+  .cursor-dot { width: 8px; height: 8px; background: #22d3ee; }
+  .cursor-ring { width: 36px; height: 36px; border: 1.5px solid rgba(34,211,238,.6); transition: width .25s, height .25s, border-color .25s, background .25s; }
+  .cursor-ring.is-hover { width: 56px; height: 56px; border-color: rgba(232,121,249,.8); background: rgba(232,121,249,.08); }
+}
+
+/* loader curtain */
+#loader {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  background: #0A0A0F;
+}
+
+/* nav + site-wide glowing links */
+.nav-link {
+  position: relative;
+  transition: color .25s ease, text-shadow .25s ease, transform .25s ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, #22d3ee, #818cf8, #e879f9);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s ease;
+}
+.nav-link:hover, .nav-link:focus-visible {
+  color: #22d3ee !important;
+  text-shadow: 0 0 16px rgba(34,211,238,.75), 0 0 34px rgba(129,140,248,.45);
+  transform: translateY(-1px);
+}
+.nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }
+
+/* glowing text links (footer, view-all, headings) */
+.glow-link {
+  transition: color .25s ease, text-shadow .25s ease;
+}
+.glow-link:hover, .glow-link:focus-visible {
+  color: #22d3ee !important;
+  text-shadow: 0 0 14px rgba(34,211,238,.8), 0 0 30px rgba(232,121,249,.4);
+}
+
+/* glowing icon buttons (socials, card icons, floats) */
+.glow-icon {
+  transition: transform .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease, background .25s ease !important;
+}
+.glow-icon:hover, .glow-icon:focus-visible {
+  transform: translateY(-3px) scale(1.06);
+  color: #22d3ee !important;
+  border-color: rgba(34,211,238,.55) !important;
+  box-shadow: 0 0 0 1px rgba(34,211,238,.35), 0 0 22px rgba(34,211,238,.45), 0 8px 24px -8px rgba(34,211,238,.5);
+}
+
+/* glowing buttons (CTAs, submit, hire) */
+.glow-btn {
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease !important;
+}
+.glow-btn:hover, .glow-btn:focus-visible {
+  filter: brightness(1.1);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 26px rgba(34,211,238,.5), 0 0 44px rgba(168,85,247,.35), 0 12px 30px -10px rgba(34,211,238,.6);
+}
+
+/* nav active glow */
+.nav-active {
+  color: #22d3ee !important;
+  text-shadow: 0 0 18px rgba(34,211,238,.6);
+}
+
+/* typewriter caret */
+.type-caret::after {
+  content: "▍"; margin-left: 2px; color: #22d3ee;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-float-slow { animation: none; }
+}
